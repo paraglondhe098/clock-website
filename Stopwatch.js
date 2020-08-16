@@ -7,23 +7,35 @@ var Correct;
 function updatTime() {//Modifies milliseconds
     determiner = document.getElementById("STOP2").innerHTML;
     if (determiner == 'Stop') {
-        Msec++;
-    }
-    if (Msec >= 1000) {
-        Msec = 0;
         Sec++;
     }
-    if (Sec>=60) {
-        Sec=0;
-        Min++;  
+    if (Sec >= 60) {
+        Sec = 0;
+        Min++;
     }
-    if (Min>=60) {
-        Min=0;
+    if (Min >= 60) {
+        Min = 0;
         Hrs++;
     }
-    let Timestr = Hrs + ":" + Min + ":" + Sec + ":" + Msec;
-    Correct=Timestr;
+}
+function updateMsec() {
+    determiner = document.getElementById("STOP2").innerHTML;
+    if (determiner == 'Stop') {
+        Msec++;
+        if (Msec >= 100) {
+            Msec = 0;
+        }
+    }
+    var Timestr;
+    if (Msec < 10) {
+        Timestr = Hrs + ":" + Min + ":" + Sec + ":" + '0' + Msec;
+    }
+    else {
+        Timestr = Hrs + ":" + Min + ":" + Sec + ":" + Msec;
+    }
+    Correct = Timestr;
     document.getElementById("Time").innerHTML = Timestr;
+    // Correct = Timestr;
 }
 function stoopper() {//Start or stop
     if (document.getElementById("STOP2").innerHTML == 'Start') {//To stop
@@ -41,7 +53,8 @@ function stoopper() {//Start or stop
 
 //Main functioning area
 EventE = setInterval(stoopper, 10);
-EventA = setInterval(updatTime, 1);
+EventA = setInterval(updatTime, 1000);
+EventA = setInterval(updateMsec, 1);
 // stoopper();
 
 STOP3.addEventListener('click', function () {//Reset
@@ -53,7 +66,7 @@ STOP3.addEventListener('click', function () {//Reset
     Sec = 00;
     Msec = 00;
     i = 0;
-    document.getElementById("STOP2").innerHTML ='Start';
+    document.getElementById("STOP2").innerHTML = 'Start';
 })
 STOP.addEventListener('click', function () {//Lapse
     str = (i + 1) + "→" + Hrs + ":" + Min + ":" + Sec + ":" + Msec;
